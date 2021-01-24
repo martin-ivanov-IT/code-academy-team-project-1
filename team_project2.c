@@ -1,29 +1,36 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
-int isValid(char c){
-    int cond1 = c >='A' && c <='F';
-    int cond2 = c >='a' && c <='f';
-    int cond3 = c>='0' && c<='9';
-    return cond1 || cond2 || cond3;
-}
+
+unsigned long htoi(char s[]);
 int main()
 {
     char s[10];
-    begin:
     printf("0x");
     scanf("%s", s);
-    int lenght = strlen(s); 
-    for (int i = 0; i < lenght; i++)
-    {
-        if (!isValid(s[i]))
-        {
-            printf("the entered number is not correct!");
-            goto begin;
-        }
-    }
-    int fin = strtol(s, NULL, 16);
     printf("Hex: %s\n", s);
-    printf("Dec: %ld\n", fin);
+    printf("Dec: %ld\n", htoi(s));
+
     return 0;
+}
+unsigned long htoi(char s[])
+{
+    int number = 0;
+    unsigned long sum = 0;
+
+    for (int i = 0; i < strlen(s); i++)
+    {
+        s[i] = toupper(s[i]);
+        if (s[i] >= '0' && s[i] <= '9') number = s[i] - '0';
+
+        else if (s[i] >= 'A' && s[i] <= 'F')number = s[i] - 'A' + 10;
+
+        else
+        {
+            printf("Invalid input\n");
+            break;
+        }
+        sum = sum * 16 + (number);
+    }
+    return sum;
 }
