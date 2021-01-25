@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 unsigned long htoi(char s[]);
 int main()
@@ -15,22 +16,15 @@ int main()
 }
 unsigned long htoi(char s[])
 {
-    int number = 0;
-    unsigned long sum = 0;
 
     for (int i = 0; i < strlen(s); i++)
     {
         s[i] = toupper(s[i]);
-        if (s[i] >= '0' && s[i] <= '9') number = s[i] - '0';
-
-        else if (s[i] >= 'A' && s[i] <= 'F')number = s[i] - 'A' + 10;
-
-        else
+        if (!(s[i] >= '0' && s[i] <= '9') && !(s[i] >= 'A' && s[i] <= 'F'))
         {
             printf("Invalid input\n");
-            break;
+            return 0;
         }
-        sum = sum * 16 + (number);
     }
-    return sum;
+    return strtol(s, NULL, 16);
 }
